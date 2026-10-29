@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 df=pd.read_csv("alzheimers_disease_data.csv")
 #--------------- EDA ----------------
@@ -47,4 +48,39 @@ print(confusion_matrix(y_test,y_pred))
 print("\nClassification Report")
 print(classification_report(y_test,y_pred))
 print("*"*80)
+#--------------------- Naive Bayes -----------------------------------
+model2=GaussianNB()
+model2.fit(X_train,y_train)
+y_pred=model2.predict(X_test)
+print("NAIVE BAYES")
+print("Accuracy: ",accuracy_score(y_test,y_pred))
+print("\nConfusion Matrix")
+print(confusion_matrix(y_test,y_pred))
+print("\nClassification Report")
+print(classification_report(y_test,y_pred))
+print("*"*80)
+#--------------------- Random Forest -----------------------------
+rf=RandomForestClassifier(n_estimators=200,
+                          random_state=42)
+rf.fit(X_train,y_train)
+y_pred=rf.predict(X_test)
+print("RANDOM FOREST")
+print("Accuracy: ",accuracy_score(y_test,y_pred))
+print("\nConfusion Matrix")
+print(confusion_matrix(y_test,y_pred))
+print("\nClassification Report")
+print(classification_report(y_test,y_pred))
+print("*"*80)
+
+
+
+
+
+
+
+
+
+
+
+
 
