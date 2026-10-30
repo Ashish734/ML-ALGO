@@ -1,4 +1,6 @@
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
@@ -7,12 +9,35 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 df=pd.read_csv("alzheimers_disease_data.csv")
-#--------------- EDA ----------------
+#--------------------- EDA ----------------------------------
 print(df.info())
 print(df.describe())
 print(df.head())
+print(df.isnull().sum())
+print("Duplicte Rows: ",df.duplicated().sum())
 df=df.drop("PatientID",axis=1)
 df=df.drop("DoctorInCharge",axis=1)
+print("\nDiagnosis Distribution:")
+Diagnosis_counts=df['Diagnosis'].value_counts()
+print(Diagnosis_counts)
+Diagnosis_counts.plot(
+    kind='pie', 
+    autopct='%1.1f%%', 
+    #startangle=90, 
+    figsize=(6, 6),
+    colors=['skyblue', 'lightgreen', 'salmon']
+)
+plt.title("Class Distribution (0 = No Alzheimer's, 1 = Alzheimer's)")
+plt.tight_layout()
+plt.show()
+plt.figure(figsize=(16, 12))
+corr = df.corr()
+sns.heatmap(corr, cmap="coolwarm", center=0, annot=False)
+plt.title("Correlation Heatmap")
+plt.tight_layout()
+plt.show()
+print("\n--- Top correlations with Diagnosis ---")
+print(corr["Diagnosis"].drop("Diagnosis").sort_values(ascending=False).head(10).round(3))
 print("*"*80)
 #checking class balance
 print("\nDiagnosis Distribution:")
@@ -71,9 +96,7 @@ print(confusion_matrix(y_test,y_pred))
 print("\nClassification Report")
 print(classification_report(y_test,y_pred))
 print("*"*80)
-
-
-
+'''
 
 
 
